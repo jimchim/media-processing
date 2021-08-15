@@ -1,0 +1,30 @@
+----
+### Step 1: Removing all existing subtitles embedded to the video
+
+ffmpeg -i "C:\Desktop\test.mkv" -vcodec copy -acodec copy -sn 26.mkv
+
+----
+### Step 2: Add the subtitle you want to the file.
+
+ffmpeg -i 01-nosub.mkv -i 01.ass -c:s ass -c:v copy -c:a copy Log-Horizon-S01E01.mkv
+
+Notes:
+#This command takes an input file, copy the audio and video stream, but add the wanted subtitle to the steam 
+	- -i 01.ass: add an input - the subtitle file you want to add to the file
+	- -c:sass: this specifies the wanted format of the subtitle.
+
+----
+
+### Optional: Adjusting timing of a subtitle file (for subtitle that's too slow)
+
+ffmpeg -itsoffset 2 -i subtitles.srt -c copy subtitles_delayed.srt
+
+Notes:
+- this script is for replacing the subtitles used in the video.
+-itsoffset is for delaying the video stream - if the subtitle isn't perfectly synced with the video, adjust this to make it sync properly.
+
+#### This adjust the subtitle's sync with the video (for subtitle that's too fast)
+
+Example:
+ffmpeg -itsoffset -1 -i "C:\Users\chimk\Desktop\right syb\[SumiSora][Umineko][BDRip][01][x264_2flac][1920x1080](F53571AA).tc.ass" -c copy 01.ass
+
