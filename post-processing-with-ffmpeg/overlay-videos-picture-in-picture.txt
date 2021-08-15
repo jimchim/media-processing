@@ -1,0 +1,21 @@
+`ffmpeg.exe -i overlay.mp4 -i main.mp4 -filter_complex "[0]scale=iw/5:ih/5 [pip]; [1][pip] overlay=main_w-overlay_w-0:main_h-overlay_h-0" -acodec copy -vcodec hevc_nvenc output.mp4 ; `
+
+#the following line is for windows only.
+#`msg.exe "WINDOWS-USERNAME "ENCODING COMPLETED MESSAGE" `
+
+SAMPLE:
+
+ffmpeg.exe -i 'C:\Users\jim\Desktop\New folder\2021-07-10-Suhua-incident-rear.mp4' -i 'C:\Users\jim\Desktop\New folder\2021-07-10-Suhua-incident-front.mp4' -filter_complex "[0]scale=iw/5:ih/5 [pip]; [1][pip] overlay=main_w-overlay_w-25:main_h-overlay_h-25" -acodec copy -vcodec hevc_nvenc -b:v 9000k 2021-07-10-Suhua-incident.mp4 ; msg.exe jim "Encoding completed"
+
+
+Explained:
+
+ffmpeg.exe
+-i overlay.mp4 <--- input file to be served as PIP overlay (e.g. rear cam)
+-i main.mp4 <--- input file to be the main content (e.g. front cam)
+-filter_complex "[0]scale=iw/3:ih/3 [pip]; [1][pip] overlay=main_w-overlay_w-1285:main_h-overlay_h-0" <--- specify the size and location of the overlay, the overlay-w-1285 decides the horizontal position of the overlay, and the overlay_h-0 decides the vertical positioning, [1][pip] determins that the audio of the main video will be kept
+
+-acodec copy <--- copy the audio codec settings of the source
+-vcodec hevc_nvenc <--- use hardware acceleration - here I use the h265 codec with my RTX3070ti
+-b:v 9000k <-- set video bitrate to 9000kbps.
+output.mp4 <--- the output file's name
